@@ -47,7 +47,24 @@ const ListarMeta = async () => {
     console.log("Meta(s) marcada(s) concluída(s)")
 }
 
-async function Menu  ()  {
+const MetasRealizadas = async () => {
+    const realizadas = metas.filter((meta) => {
+        return meta.checked
+    })
+
+    if (realizadas.length == 0 ){
+        console.log("Não existem metas realizadas!")
+        return
+}
+
+
+    await select({
+        message: "Metas Realizadas",
+        choices: [...realizadas]
+    })
+}
+
+ const Menu = async () => {
 
     while (true){
         const opcao = await select({
@@ -60,6 +77,11 @@ async function Menu  ()  {
                 {
                     name: "Listar metas",
                     value: "listar"                 
+
+                },
+                {
+                    name: "Metas Realizadas",
+                    value: "realizadas"                 
 
                 },
                 {
@@ -82,7 +104,11 @@ async function Menu  ()  {
             case "listar":
                 await ListarMeta()
                 break
-            
+
+            case "realizadas":
+                await MetasRealizadas()
+                break
+
             case "deletar":
                 console.log("Vamos deletar")
                 break
