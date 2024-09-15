@@ -4,6 +4,7 @@ let meta = {
     value: "Tomar 2L de água por dia",
     checked: false,
 
+
 }
 
 let metas = [meta]
@@ -30,11 +31,11 @@ const ListarMeta = async () => {
         m.checked = false
     }
 )
-
-    if (resposta.lenght == 0){
-        console.log("Nenhuma meta selecionada.")
+    if (resposta.length == 0){
+     console.log("Nenhuma meta selecionada.")
         return 
-    }
+}
+
 
 
 
@@ -69,7 +70,7 @@ const MetasAbertas = async () => {
     const abertas = metas.filter((meta) => {
         return meta.checked != true
     })
-    if (abertas.lenght == 0){
+    if (abertas.length == 0){
         console.log("Não existem metas abertas!Você é demais!!!")
         return
     }
@@ -78,6 +79,31 @@ const MetasAbertas = async () => {
         message: "Metas Abertas: "+abertas.length,
         choices: [...abertas]
     })
+}
+
+const DeletarMetas = async () => {
+    const metasDesmarcadas = metas.map((meta) =>{
+        return {value: meta.value,checked:false }
+    })
+    const itensAdeletar = await checkbox({
+        message:"Selecione um item para deletar.",
+        choices: [...metasDesmarcadas],
+        instructions:false
+    })
+
+    if (itensAdeletar.length == 0 ){
+       console.log("Nenhum item para deletar selecionado.")
+       return
+    }
+
+    itensAdeletar.forEach((item) => {
+        metas = metas.filter((meta) => {
+            return meta.value != item
+        })
+    })
+
+    console.log("Meta(s) deletada(s) com sucesso!")
+
 }
 
  const Menu = async () => {
@@ -135,7 +161,7 @@ const MetasAbertas = async () => {
                 break
 
             case "deletar":
-                console.log("Vamos deletar")
+                await DeletarMetas()
                 break
 
             case "sair":
